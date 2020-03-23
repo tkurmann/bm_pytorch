@@ -57,5 +57,5 @@ class OCTHDF5Dataset(Dataset):
             image = self.transform_image(image)
 
 
-        sample = {'images': image,  'label': label}
+        sample = {'images': image,  'labels': label}
         return sample

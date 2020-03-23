@@ -99,17 +99,17 @@ def train(train_loader, model, criterion, optimizer, epoch):
         data_time.update(time.time() - end)
         # print()
         images = sample["images"].cuda(0, non_blocking=True)
-        labels = sample["label"].cuda(0, non_blocking=True)
+        labels = sample["labels"].cuda(0, non_blocking=True)
 
 
         # compute output
         output = model(images)
-        loss = criterion(output, labels.long())
+        loss = criterion(output, labels)
 
 
         # measure accuracy and record loss
         losses.update(loss.item(), images.size(0))
-        top1.update(acc1[0], images.size(0))
+        # top1.update(acc1[0], images.size(0))
 
 
         # compute gradient and do SGD step
@@ -141,12 +141,11 @@ def validate(val_loader, model, criterion):
         for i, (sample) in enumerate(val_loader):
 
             images = sample["images"].cuda(0, non_blocking=True)
-            labels = sample["gender"].cuda(0, non_blocking=True)
+            labels = sample["labels"].cuda(0, non_blocking=True)
 
             # compute output
             output = model(images)
-            loss = criterion(output, labels.long())
-
+            loss = criterion(output, labels)
             # acc1,_ = accuracy(output[:,:2], gender, topk=(1,1))
 
 
