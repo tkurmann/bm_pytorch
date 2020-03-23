@@ -198,12 +198,12 @@ def main():
                                                              transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
 
-    train_dataset = OCTHDF5Dataset(args.training_data, image_set="data/images",
-                                                                           label_set="data/labels",
-                                                                           transform_image=image_train_transform)
-    val_dataset = OCTHDF5Dataset(args.val_data, image_set="data/images",
-                                                                        label_set="data/labels",
-                                                                        transform_image=image_val_transform)
+    train_dataset = OCTHDF5Dataset(args.training_data, image_set="data/slices",
+                                                       label_set="data/markers",
+                                                       transform_image=image_train_transform)
+    val_dataset = OCTHDF5Dataset(args.val_data, image_set="data/slices",
+                                                label_set="data/markers",
+                                                transform_image=image_val_transform)
 
     train_loader = torch.utils.data.DataLoader(
         train_dataset, batch_size=args.batch_size, shuffle=True,
