@@ -9,7 +9,7 @@ import numpy as np
 import torchvision
 import torchvision.transforms as transforms
 import time
-
+import sklearn.metrics
 from datasets.octhdf5 import OCTHDF5Dataset
 from models.resnet import resnet50
 #from models.mobilenet import mobilenet_v2
@@ -74,10 +74,7 @@ class ProgressMeter(object):
         return '[' + fmt + '/' + fmt.format(num_batches) + ']'
 
 
-def l1(output, target):
-        res = np.abs(target - output)
-        res = np.mean(res)
-        return res
+
 
 
 def train(train_loader, model, criterion, optimizer, epoch):
@@ -136,6 +133,9 @@ def validate(val_loader, model, criterion):
     # switch to evaluate mode
     model.eval()
 
+    labels_all = []
+    pred_all = []
+
     with torch.no_grad():
         end = time.time()
         for i, (sample) in enumerate(val_loader):
@@ -146,8 +146,8 @@ def validate(val_loader, model, criterion):
             # compute output
             output = model(images)
             loss = criterion(output, labels)
-            # acc1,_ = accuracy(output[:,:2], gender, topk=(1,1))
-
+            labels_all.append(labels.data.cpu().numpy())
+            pred_all.append(output.data.cpu().numpy())
 
             # measure accuracy and record loss
             losses.update(loss.item(), images.size(0))
@@ -162,8 +162,17 @@ def validate(val_loader, model, criterion):
             if i % 10 == 0:
                 progress.display(i)
 
-        print(' * Acc@1 {top1.avg:.3f} Age L1 {age.avg:.3f} '
-              .format(top1=top1, age=agel1))
+        labels_all = np.array(labels_all)
+        pred_all = np.array(pred_all)
+
+        roc_macro = sklearn.metrics.roc_auc_score(y_true=labels_l, y_score=pred_l, average='macro')
+        roc_micro = sklearn.metrics.roc_auc_score(y_true=labels_l, y_score=pred_l, average='micro')
+
+        map_macro = sklearn.metrics.average_precision_score(y_true=labels_l, y_score=pred_l, average='macro')
+        map_micro = sklearn.metrics.average_precision_score(y_true=labels_l, y_score=pred_l, average='micro')
+
+        print(' *roc macro {roc_macro:.3f} roc micro {roc_micro:.3f} map macro {map_macro:.3f} map micro {map_micro:.3f}  '
+              .format(roc_macro=roc_macro, roc_micro=roc_micro, map_macro=map_macro, map_micro=map_micro))
 
     return 1
 
