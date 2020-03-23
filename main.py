@@ -165,11 +165,11 @@ def validate(val_loader, model, criterion):
         labels_all = np.array(labels_all)
         pred_all = np.array(pred_all)
 
-        roc_macro = sklearn.metrics.roc_auc_score(y_true=labels_l, y_score=pred_l, average='macro')
-        roc_micro = sklearn.metrics.roc_auc_score(y_true=labels_l, y_score=pred_l, average='micro')
+        roc_macro = sklearn.metrics.roc_auc_score(y_true=labels_all, y_score=pred_all, average='macro')
+        roc_micro = sklearn.metrics.roc_auc_score(y_true=labels_all, y_score=pred_all, average='micro')
 
-        map_macro = sklearn.metrics.average_precision_score(y_true=labels_l, y_score=pred_l, average='macro')
-        map_micro = sklearn.metrics.average_precision_score(y_true=labels_l, y_score=pred_l, average='micro')
+        map_macro = sklearn.metrics.average_precision_score(y_true=labels_all, y_score=pred_all, average='macro')
+        map_micro = sklearn.metrics.average_precision_score(y_true=labels_all, y_score=pred_all, average='micro')
 
         print(' *roc macro {roc_macro:.3f} roc micro {roc_micro:.3f} map macro {map_macro:.3f} map micro {map_micro:.3f}  '
               .format(roc_macro=roc_macro, roc_micro=roc_micro, map_macro=map_macro, map_micro=map_micro))
