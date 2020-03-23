@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class OCTHDF5Dataset(Dataset):
     """Instrument dataset."""
 
-    def __init__(self, hdf5_file, image_set, gender_set, age_set, transform_image=None):
+    def __init__(self, hdf5_file, image_set, label_set, transform_image=None):
 
 
         self.dataset = None

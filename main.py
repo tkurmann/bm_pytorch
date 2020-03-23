@@ -16,7 +16,7 @@ from models.resnet import resnet50
 import matplotlib.pyplot as plt
 
 
-parser = argparse.ArgumentParser(description='Fundus Gender Classification ')
+parser = argparse.ArgumentParser(description='OCT Biomarker Classification ')
 parser.add_argument('training_data', metavar='TRAINFILE',
                     help='path to training dataset')
 parser.add_argument('val_data', metavar='VALFILE',
