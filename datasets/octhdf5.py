@@ -48,7 +48,7 @@ class OCTHDF5Dataset(Dataset):
         image = self.image_set[idx]
         label = self.label_set[idx]
         image = np.expand_dims(image, axis=-1)
-        image = np.concat([image, image, image], axis=-1)
+        image = np.concatenate([image, image, image], axis=-1)
 
 
         seed = random.randint(0,2**32)
