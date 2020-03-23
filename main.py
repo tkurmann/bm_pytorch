@@ -146,8 +146,15 @@ def validate(val_loader, model, criterion):
             # compute output
             output = model(images)
             loss = criterion(output, labels)
-            labels_all.append(labels.data.cpu().numpy())
-            pred_all.append(output.data.cpu().numpy())
+            if(i == 0):
+                labels_all = labels.data.cpu().numpy()
+                pred_all = output.data.cpu().numpy()
+            else:
+                labels_all = np.vstack([labels_all, labels.data.cpu().numpy()])
+                pred_all = np.vstack([pred_all, output.data.cpu().numpy()])
+
+            #labels_all.append(labels.data.cpu().numpy())
+            #pred_all.append(output.data.cpu().numpy())
 
             # measure accuracy and record loss
             losses.update(loss.item(), images.size(0))
@@ -162,17 +169,18 @@ def validate(val_loader, model, criterion):
             if i % 10 == 0:
                 progress.display(i)
 
+        print(labels_all)
         labels_all = np.array(labels_all)
         pred_all = np.array(pred_all)
-
+        print(labels_all.shape)
+        print(pred_all.shape)
         roc_macro = sklearn.metrics.roc_auc_score(y_true=labels_all, y_score=pred_all, average='macro')
         roc_micro = sklearn.metrics.roc_auc_score(y_true=labels_all, y_score=pred_all, average='micro')
 
         map_macro = sklearn.metrics.average_precision_score(y_true=labels_all, y_score=pred_all, average='macro')
         map_micro = sklearn.metrics.average_precision_score(y_true=labels_all, y_score=pred_all, average='micro')
 
-        print(' *roc macro {roc_macro:.3f} roc micro {roc_micro:.3f} map macro {map_macro:.3f} map micro {map_micro:.3f}  '
-              .format(roc_macro=roc_macro, roc_micro=roc_micro, map_macro=map_macro, map_micro=map_micro))
+        print(' *roc macro {0} roc micro {1} map macro {2} map micro {3}'.format(roc_macro, roc_micro, map_macro, map_micro))
 
     return 1
 
