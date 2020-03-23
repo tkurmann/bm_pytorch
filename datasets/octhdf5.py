@@ -20,7 +20,7 @@ class OCTHDF5Dataset(Dataset):
         self.dataset = None
         self.hdf5_file = hdf5_file
         self.image_set_name = image_set
-        self.label_set_name = gender_set
+        self.label_set_name = label_set
 
         self.image_set = None
         self.label_set = None
