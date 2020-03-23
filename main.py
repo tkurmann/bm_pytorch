@@ -91,7 +91,7 @@ def train(train_loader, model, criterion, optimizer, epoch):
     # switch to train mode
     progress = ProgressMeter(
         len(train_loader),
-        [batch_time, data_time, losses, top1, agel1],
+        [batch_time, data_time, losses],
         prefix="Epoch: [{}]".format(epoch))
     model.train()
     end = time.time()
@@ -130,7 +130,7 @@ def validate(val_loader, model, criterion):
     # top1 = AverageMeter('Gender Accuracy', ':6.2f')
     progress = ProgressMeter(
         len(val_loader),
-        [batch_time, losses, top1],
+        [batch_time, losses],
         prefix='Test: ')
 
     # switch to evaluate mode
