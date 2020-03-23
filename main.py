@@ -214,7 +214,7 @@ def main():
         num_workers=args.workers, pin_memory=True, sampler=None)
 
 
-    model = resnet50(pretrained=True, num_classes=10)
+    model = resnet50(pretrained=True, num_classes=11)
     model = torch.nn.DataParallel(model).cuda()
 
 
