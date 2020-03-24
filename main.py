@@ -199,7 +199,7 @@ def main():
                                                              transforms.ToPILImage(),
                                                              transforms.Resize([512,512]),
                                                              transforms.RandomHorizontalFlip(p=0.5),
-                                                             transforms.RandomVerticalFlip(p=0.5),
+                                                             #transforms.RandomVerticalFlip(p=0.5),
                                                              # transforms.RandomApply([transforms.RandomAffine(degrees=(-90, 90))], p=0.1),
                                                              # transforms.RandomApply([transforms.RandomAffine(degrees=0, translate=(0.0, 0.25))], p=0.1),
                                                              # transforms.RandomApply([transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.0, hue=0.0)]),
